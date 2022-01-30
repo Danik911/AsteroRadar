@@ -1,78 +1,31 @@
 package com.udacity.asteroidradar.ui.main
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.udacity.asteroidradar.R
-import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import com.udacity.asteroidradar.databinding.ListItemAsteroidBinding
 import com.udacity.asteroidradar.models.Asteroid
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-private val ITEM_VIEW_TYPE_HEADER = 0
-private val ITEM_VIEW_TYPE_ITEM = 1
+class MainAsteroidAdapter(val clickListener: AsteroidListener) : ListAdapter<Asteroid,
+        MainAsteroidAdapter.ViewHolder>(AsteroidDiffCallback()) {
 
-class MainAsteroidAdapter(val clickListener: AsteroidListener) : ListAdapter<DataItem,
-        RecyclerView.ViewHolder>(SleepNightDiffCallback()) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = getItem(position)
 
-    private val adapterScope = CoroutineScope(Dispatchers.Default)
-
-    fun addHeaderAndSubmitList(list: List<Asteroid>?) {
-        adapterScope.launch {
-            val items = when (list) {
-                null -> listOf(DataItem.Header)
-                else -> listOf(DataItem.Header) + list.map { DataItem.SleepNightItem(it) }
-            }
-            withContext(Dispatchers.Main) {
-                submitList(items)
-            }
-        }
+        holder.bind(clickListener,item)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is ViewHolder -> {
-                val nightItem = getItem(position) as DataItem.SleepNightItem
-                holder.bind(clickListener, nightItem.sleepNight)
-            }
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder.from(parent)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(parent)
-            ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
-            else -> throw ClassCastException("Unknown viewType ${viewType}")
-        }
-    }
-
-    class TextViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        companion object {
-            fun from(parent: ViewGroup): TextViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.header, parent, false)
-                return TextViewHolder(view)
-            }
-        }
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
-            is DataItem.Header -> ITEM_VIEW_TYPE_HEADER
-            is DataItem.SleepNightItem -> ITEM_VIEW_TYPE_ITEM
-        }
-    }
-
-    class ViewHolder private constructor(val binding: FragmentMainBinding)
+    class ViewHolder private constructor(val binding: ListItemAsteroidBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(clickListener: AsteroidListener, item: Asteroid) {
-            binding.sleep = item
+            binding.asteroid = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
@@ -80,7 +33,7 @@ class MainAsteroidAdapter(val clickListener: AsteroidListener) : ListAdapter<Dat
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ListItemSleepNightBinding.inflate(layoutInflater, parent, false)
+                val binding = ListItemAsteroidBinding.inflate(layoutInflater, parent, false)
 
                 return ViewHolder(binding)
             }
@@ -94,28 +47,16 @@ class MainAsteroidAdapter(val clickListener: AsteroidListener) : ListAdapter<Dat
  * Used by ListAdapter to calculate the minumum number of changes between and old list and a new
  * list that's been passed to `submitList`.
  */
-class SleepNightDiffCallback : DiffUtil.ItemCallback<DataItem>() {
-    override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+class AsteroidDiffCallback : DiffUtil.ItemCallback<Asteroid>() {
+    override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+    override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
         return oldItem == newItem
     }
 }
 
-class AsteroidListener(val clickListener: (asteroidId: Long) -> Unit) {
+class AsteroidListener(val clickListener: (AsteroidId: Long) -> Unit) {
     fun onClick(asteroid: Asteroid) = clickListener(asteroid.id)
-}
-
-sealed class DataItem {
-    data class SleepNightItem(val sleepNight: SleepNight): DataItem() {
-        override val id = sleepNight.nightId
-    }
-
-    object Header: DataItem() {
-        override val id = Long.MIN_VALUE
-    }
-
-    abstract val id: Long
 }
