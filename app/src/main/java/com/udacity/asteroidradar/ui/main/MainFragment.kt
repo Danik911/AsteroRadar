@@ -3,9 +3,7 @@ package com.udacity.asteroidradar.ui.main
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.db.AsteroidDatabase
@@ -21,9 +19,9 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val application = requireNotNull(this.activity).application
-        val dataSource = AsteroidDatabase.getInstance(application).asteroidDatabaseDao
+        val dataSource = AsteroidDatabase.getDatabase(application).asteroidDatabaseDao
 
-        val viewModelFactory = MainViewModelFactory(dataSource, application)
+        val viewModelFactory = MainViewModelFactory(application)
         val mainViewModel =
             ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
         val adapter = MainAsteroidAdapter(AsteroidListener { asteroidId ->

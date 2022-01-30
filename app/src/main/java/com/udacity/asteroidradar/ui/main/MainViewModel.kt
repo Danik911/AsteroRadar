@@ -1,50 +1,25 @@
 package com.udacity.asteroidradar.ui.main
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.udacity.asteroidradar.db.AsteroidDatabaseDao
-import com.udacity.asteroidradar.models.Asteroid
+import androidx.lifecycle.*
+import com.udacity.asteroidradar.db.AsteroidDatabase.Companion.getDatabase
+import com.udacity.asteroidradar.repositoy.AsteroidRepository
+import kotlinx.coroutines.launch
 
 class MainViewModel(
-    val database: AsteroidDatabaseDao,
     application: Application
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
-    private val _asteroids = MutableLiveData<List<Asteroid>>()
-    val asteroids: LiveData<List<Asteroid>>
-        get() = _asteroids
+    private val database = getDatabase(application)
+    private val asteroidRepository = AsteroidRepository(database)
 
     init {
-        _asteroids.value = listOf(Asteroid(
-            2,
-            "Name",
-            "4234",
-            34.33,
-            34.33,
-            34.33,
-            34.33,
-            true
-        ),Asteroid(
-            2,
-            "Name",
-            "4234",
-            34.33,
-            34.33,
-            34.33,
-            34.33,
-            true
-        ),Asteroid(
-            2,
-            "Name",
-            "4234",
-            34.33,
-            34.33,
-            34.33,
-            34.33,
-            false
-        ))
+        viewModelScope.launch {
+            asteroidRepository.refreshAsteroids()
+        }
     }
+
+    val asteroids = asteroidRepository.asteroids
+
 
 }

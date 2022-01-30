@@ -13,5 +13,8 @@ interface AsteroidDatabaseDao {
     @Query("select * from ASTEROID_TABLE")
     fun getAllAsteroids(): LiveData<List<AsteroidDbEntity>>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(vararg videos: AsteroidDbEntity)
+
 
 }
