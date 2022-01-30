@@ -7,5 +7,5 @@ object Constants {
 
     const val ASTEROID_TABLE = "asteroid_table"
     const val ASTEROID_DATABASE = "asteroid_database"
-    const val API_KEY = "evHD3tUI1IlestY2qiM9pdiQaVNjeRHDnQrW3OSE"
+    const val API_KEY = "DEMO_KEY"
 }
