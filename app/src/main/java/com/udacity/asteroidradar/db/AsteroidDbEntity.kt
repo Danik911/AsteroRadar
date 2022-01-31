@@ -3,14 +3,14 @@ package com.udacity.asteroidradar.db
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.udacity.asteroidradar.models.Asteroid
-import com.udacity.asteroidradar.util.Constants.ASTEROID_TABLE
+import com.udacity.asteroidradar.util.NetworkConstants.TABLE_NAME
 import java.io.Serializable
 
 
-@Entity(tableName = ASTEROID_TABLE)
+@Entity(tableName = TABLE_NAME)
 data class AsteroidDbEntity(
-    @PrimaryKey(autoGenerate = true)
-    var id: Long = 0L,
+    @PrimaryKey
+    var id: Long,
     val codename: String,
     val closeApproachDate: String,
     val absoluteMagnitude: Double,

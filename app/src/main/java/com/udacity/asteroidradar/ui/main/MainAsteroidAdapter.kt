@@ -57,6 +57,6 @@ class AsteroidDiffCallback : DiffUtil.ItemCallback<Asteroid>() {
     }
 }
 
-class AsteroidListener(val clickListener: (AsteroidId: Long) -> Unit) {
-    fun onClick(asteroid: Asteroid) = clickListener(asteroid.id)
+class AsteroidListener(val clickListener: (Asteroid) -> Unit) {
+    fun onClick(asteroid: Asteroid) = clickListener(asteroid)
 }

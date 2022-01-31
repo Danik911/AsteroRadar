@@ -5,16 +5,17 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.udacity.asteroidradar.util.NetworkConstants.TABLE_NAME
 
 
 @Dao
 interface AsteroidDatabaseDao {
 
-    @Query("select * from ASTEROID_TABLE")
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY closeApproachDate")
     fun getAllAsteroids(): LiveData<List<AsteroidDbEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg videos: AsteroidDbEntity)
+    fun insertAll(asteroids: List<AsteroidDbEntity>)
 
 
 }

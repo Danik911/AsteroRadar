@@ -5,10 +5,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.udacity.asteroidradar.util.Constants.ASTEROID_DATABASE
+import com.udacity.asteroidradar.util.NetworkConstants.DATABASE_FILE_NAME
 
 
-@Database(entities = [AsteroidDbEntity::class], version = 1, exportSchema = false)
+@Database(entities = [AsteroidDbEntity::class], version = 3, exportSchema = false)
 abstract class AsteroidDatabase : RoomDatabase() {
 
 
@@ -31,7 +31,7 @@ abstract class AsteroidDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         AsteroidDatabase::class.java,
-                        ASTEROID_DATABASE
+                        DATABASE_FILE_NAME
                     )
                         // Wipes and rebuilds instead of migrating if no Migration object.
                         .fallbackToDestructiveMigration()

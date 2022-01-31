@@ -1,6 +1,10 @@
 package com.udacity.asteroidradar.util
 
+import android.provider.SyncStateContract
+import com.udacity.asteroidradar.db.AsteroidDbEntity
 import com.udacity.asteroidradar.models.Asteroid
+import com.udacity.asteroidradar.util.NetworkConstants.API_QUERY_DATE_FORMAT
+import com.udacity.asteroidradar.util.NetworkConstants.DEFAULT_END_DATE_DAYS
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -45,12 +49,26 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
 
     val calendar = Calendar.getInstance()
-    for (i in 0..Constants.DEFAULT_END_DATE_DAYS) {
+    for (i in 0..DEFAULT_END_DATE_DAYS) {
         val currentTime = calendar.time
-        val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
+        val dateFormat = SimpleDateFormat(API_QUERY_DATE_FORMAT, Locale.getDefault())
         formattedDateList.add(dateFormat.format(currentTime))
         calendar.add(Calendar.DAY_OF_YEAR, 1)
     }
 
     return formattedDateList
+}
+fun List<Asteroid>.asDatabaseModel(): List<AsteroidDbEntity> {
+    return map {
+        AsteroidDbEntity(
+            id = it.id,
+            codename = it.codename,
+            closeApproachDate = it.closeApproachDate,
+            absoluteMagnitude = it.absoluteMagnitude,
+            estimatedDiameter = it.estimatedDiameter,
+            relativeVelocity = it.relativeVelocity,
+            distanceFromEarth = it.distanceFromEarth,
+            isPotentiallyHazardous = it.isPotentiallyHazardous
+        )
+    }
 }
