@@ -3,7 +3,7 @@ package com.udacity.asteroidradar.db
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.udacity.asteroidradar.models.Asteroid
-import com.udacity.asteroidradar.util.NetworkConstants.TABLE_NAME
+import com.udacity.asteroidradar.util.Constants.TABLE_NAME
 import java.io.Serializable
 
 

@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.udacity.asteroidradar.util.NetworkConstants.DATABASE_FILE_NAME
+import com.udacity.asteroidradar.util.Constants.DATABASE_FILE_NAME
 
 
 @Database(entities = [AsteroidDbEntity::class], version = 3, exportSchema = false)

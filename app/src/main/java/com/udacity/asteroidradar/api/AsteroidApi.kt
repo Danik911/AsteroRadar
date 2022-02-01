@@ -3,8 +3,8 @@ package com.udacity.asteroidradar.api
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.models.Asteroid
-import com.udacity.asteroidradar.util.NetworkConstants.API_KEY
-import com.udacity.asteroidradar.util.NetworkConstants.BASE_URL
+import com.udacity.asteroidradar.util.Constants.API_KEY
+import com.udacity.asteroidradar.util.Constants.BASE_URL
 import com.udacity.asteroidradar.util.parseAsteroidsJsonResult
 import org.json.JSONObject
 import retrofit2.Retrofit

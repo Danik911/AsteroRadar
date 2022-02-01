@@ -1,6 +1,6 @@
 package com.udacity.asteroidradar.util
 
-object NetworkConstants {
+object Constants {
     const val API_KEY = "DEMO_KEY"
 
     const val BASE_URL = "https://api.nasa.gov/"
@@ -11,8 +11,7 @@ object NetworkConstants {
 
     const val HTTP_GET_APOD_PATH = "planetary/apod"
 
-    const val API_QUERY_DATE_FORMAT =
-        "yyyy-MM-dd" // change YYYY to yyyy as it doesn't compatible with API 21
+    const val API_QUERY_DATE_FORMAT = "yyyy-MM-dd"
     const val DEFAULT_END_DATE_DAYS = 7
 
 

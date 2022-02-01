@@ -1,10 +1,9 @@
 package com.udacity.asteroidradar.util
 
-import android.provider.SyncStateContract
 import com.udacity.asteroidradar.db.AsteroidDbEntity
 import com.udacity.asteroidradar.models.Asteroid
-import com.udacity.asteroidradar.util.NetworkConstants.API_QUERY_DATE_FORMAT
-import com.udacity.asteroidradar.util.NetworkConstants.DEFAULT_END_DATE_DAYS
+import com.udacity.asteroidradar.util.Constants.API_QUERY_DATE_FORMAT
+import com.udacity.asteroidradar.util.Constants.DEFAULT_END_DATE_DAYS
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
