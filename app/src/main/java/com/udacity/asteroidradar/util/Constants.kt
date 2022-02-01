@@ -17,4 +17,5 @@ object Constants {
 
     const val TABLE_NAME = "asteroid"
     const val DATABASE_FILE_NAME = "asteroid.db"
+
 }
