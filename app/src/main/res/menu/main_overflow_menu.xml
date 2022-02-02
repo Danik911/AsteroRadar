@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/show_all_menu"
-        android:title="@string/next_week_asteroids" />
-    <item
-        android:id="@+id/show_rent_menu"
-        android:title="@string/today_asteroids" />
-    <item
-        android:id="@+id/show_buy_menu"
-        android:title="@string/saved_asteroids" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/show_week_asteroids"
+            android:title="@string/next_week_asteroids"
+            android:contentDescription="@string/show_weekly_asteroids"
+            />
+        <item
+            android:id="@+id/show_today_asteroids"
+            android:title="@string/today_asteroids"
+            android:contentDescription="@string/show_today_s_asteroids"
+            />
+        <item
+            android:id="@+id/show_saved_asteroids"
+            android:title="@string/saved_asteroids"
+            android:contentDescription="@string/show_saved_asteroids"
+            />
+    </group>
+
 </menu>
