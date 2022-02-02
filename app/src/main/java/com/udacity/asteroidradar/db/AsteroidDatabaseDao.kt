@@ -14,8 +14,12 @@ interface AsteroidDatabaseDao {
     @Query("SELECT * FROM $TABLE_NAME ORDER BY closeApproachDate")
     fun getAllAsteroids(): LiveData<List<AsteroidDbEntity>>
 
+    @Query("SELECT * FROM $TABLE_NAME WHERE closeApproachDate = :currentDate")
+    fun getTodayAsteroids(currentDate: String): LiveData<List<AsteroidDbEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(asteroids: List<AsteroidDbEntity>)
 
 
 }
+

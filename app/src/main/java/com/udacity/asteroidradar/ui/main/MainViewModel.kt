@@ -1,6 +1,8 @@
 package com.udacity.asteroidradar.ui.main
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.db.AsteroidDatabase.Companion.getDatabase
 import com.udacity.asteroidradar.models.Asteroid
@@ -8,13 +10,20 @@ import com.udacity.asteroidradar.models.PictureOfDay
 import com.udacity.asteroidradar.repositoy.AsteroidRepository
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 class MainViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
     private val database = getDatabase(application)
     private val asteroidRepository = AsteroidRepository(database)
-    val asteroids = asteroidRepository.asteroids
+
+
+
+
+
+    val asteroidsToday = asteroidRepository.getTodayAsteroids()
+    val asteroidsWeek = asteroidRepository.asteroidsWeek
 
     private val _pictureOfDay = MutableLiveData<PictureOfDay>()
     val pictureOfDay: LiveData<PictureOfDay>
@@ -27,17 +36,23 @@ class MainViewModel(
 
     private val mockData = false
     private val _mockAsteroids = MutableLiveData<List<Asteroid>>()
-    val mockAsteroids : LiveData<List<Asteroid>>
+    val mockAsteroids: LiveData<List<Asteroid>>
         get() = _mockAsteroids
 
+
+
     init {
-        if(mockData) {
+
+        if (mockData) {
             mockData()
         } else {
             refreshAsteroids()
             getPictureOfDay()
         }
+
     }
+
+
 
     private fun mockData() {
 
@@ -54,7 +69,8 @@ class MainViewModel(
                 88.0,
                 99.8,
                 66.6,
-                true)
+                true
+            )
 
             dataList.add(data)
 

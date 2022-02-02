@@ -7,6 +7,7 @@ import com.udacity.asteroidradar.work.RefreshDataWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class AsteroidApplication: Application() {
@@ -14,8 +15,11 @@ class AsteroidApplication: Application() {
     lateinit var application: AsteroidApplication
     private set
 
+    private val debug = true
+
     override fun onCreate() {
         super.onCreate()
+        Timber.plant(Timber.DebugTree())
         application = this
         delayedInit()
     }
@@ -29,18 +33,32 @@ class AsteroidApplication: Application() {
     }
 
     private fun setupRecurringWork() {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED)
-            .setRequiresBatteryNotLow(true)
-            .setRequiresCharging(true)
-            .apply {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    setRequiresDeviceIdle(true)
-                }
-            }.build()
+
+        lateinit var constraints: Constraints
+
+        if (debug){
+            constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+        }
+        else {
+            constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.UNMETERED)
+                .setRequiresBatteryNotLow(true)
+                .setRequiresCharging(true)
+                .apply {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        setRequiresDeviceIdle(true)
+                    }
+                }.build()
+        }
+
+
+        val timeUnit = if(debug) TimeUnit.SECONDS else TimeUnit.DAYS
+        val interval:Long = if(debug) 10 else 1
 
         val repeatingRequest
-                = PeriodicWorkRequestBuilder<RefreshDataWorker>(1, TimeUnit.DAYS)
+                = PeriodicWorkRequestBuilder<RefreshDataWorker>(interval, timeUnit)
             .setConstraints(constraints)
             .build()
 
