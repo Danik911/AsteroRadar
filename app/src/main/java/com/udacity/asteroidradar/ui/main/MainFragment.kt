@@ -40,6 +40,7 @@ class MainFragment : Fragment() {
             asteroid?.let {
                 findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
                 viewModel.onDetailFragmentNavigated()
+
             }
         })
         viewModel.asteroidsWeek.observe(viewLifecycleOwner){

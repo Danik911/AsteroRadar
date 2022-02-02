@@ -32,6 +32,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/image_of_the_day"
                 app:pictureOfDay="@{viewModel.pictureOfDay}"
                  />
 
@@ -52,6 +53,7 @@
             android:id="@+id/asteroid_recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/list_of_asteroids"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
